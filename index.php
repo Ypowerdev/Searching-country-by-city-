@@ -1,38 +1,70 @@
 
 <?php
 
-$cities = [
+class Cities
+{
+    public $cities = [
+        'Япония' => 'Токио',
+        'Мексика' => 'Мехико',
+        'США' => 'Нью-Йорк',
+        'Индия' => 'Мумбаи',
+        'Корея' => 'Сеул',
+        'Китай' => 'Шанхай',
+        'Нигерия' => 'Лагос',
+        'Аргентина' => 'Буэнос-Айрес',
+        'Египет' => 'Каир',
+        'Англия' => 'Лондон',
+    ];
 
-    'Япония' => 'Токио',
-    'Мексика' => 'Мехико',
-    'США' => 'Нью-Йорк',
-    'Индия' => 'Мумбаи',
-    'Корея' => 'Сеул',
-    'Китай' => 'Шанхай',
-    'Нигерия' => 'Лагос',
-    'Аргентина' => 'Буэнос-Айрес',
-    'Египет' => 'Каир',
-    'Англия' => 'Лондон',
-];
-$city  = '';
-$country = '';
-
-if($_SERVER['REQUEST_METHOD' ] == 'POST'){
-  if(!empty($_POST['city']) && $city = strip_tags(trim($_POST['city']))){
-    if(in_array($city, $cities) && $country = array_search($city, $cities)){      
-        echo "<div> $city находится в $country </div>";      
+    public function getCountryByCity($city)
+    {
+        return array_search($city, $this->cities);
     }
-  }
-}  
-?>
-<form method=POST>
+
+}
+
+$city1 = new Cities;
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['city'])) {
+    $city = trim(strip_tags($_POST['city']));
+
+    //строку с городом из POST
+    if ($result = $city1->getCountryByCity($city)) {
+        echo "<div> ${city} находится в ${result} </div>";
+    }
+}
+
+class FormCities
+{
+    public $cities = [];
+    public $method = 'POST';
+
+    public function __construct($cities, $method = 'POST')
+    {
+        $this->cities = $cities;
+        $this->method = $method;
+    }
+
+    public function render()
+    {
+        $form = '<form method=' . $this->method . '>
   <label>Выберите город</label>
-  <select name="city">
-  <?php foreach ($cities as $count => $city): ?>
-      <option value="<?=$city?>"><?=$city?></option>
-  <?php endforeach;?>
+  <select name="city">';
+
+        foreach ($this->cities as $city):
+            $form .= "<option>{$city}</option>";
+        endforeach;
+
+        $form .= '
   </select>
   <div class="row">
       <input type="submit">
   </div>
-</form>
+</form>';
+        return $form;
+    }
+}
+
+$formCities = new FormCities($city1->cities);
+echo $formCities->render();
+
+?> 
