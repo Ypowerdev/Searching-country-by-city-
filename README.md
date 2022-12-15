@@ -1,4 +1,4 @@
-# Adding-user-input-to-an-array
+# Searching country by city 
 
 Имеется список, включающий страны и города:
 
