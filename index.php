@@ -24,10 +24,10 @@ class Cities
 }
 
 $city1 = new Cities;
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['city'])) {
     $city = trim(strip_tags($_POST['city']));
 
-    //строку с городом из POST
     if ($result = $city1->getCountryByCity($city)) {
         echo "<div> ${city} находится в ${result} </div>";
     }
@@ -47,19 +47,20 @@ class FormCities
     public function render()
     {
         $form = '<form method=' . $this->method . '>
-  <label>Выберите город</label>
-  <select name="city">';
+        <label>Выберите город</label>
+        <select name="city">';
 
         foreach ($this->cities as $city):
             $form .= "<option>{$city}</option>";
         endforeach;
 
         $form .= '
-  </select>
-  <div class="row">
-      <input type="submit">
-  </div>
-</form>';
+        </select>
+        <div class="row">
+            <input type="submit">
+        </div>
+        </form>';
+        
         return $form;
     }
 }
