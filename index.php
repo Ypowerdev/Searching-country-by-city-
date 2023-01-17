@@ -16,7 +16,7 @@ class Cities
         'Англия' => 'Лондон',
     ];
 
-    public function getCountryByCity($city)
+    public function getCountryByCity($city): string
     {
         return array_search($city, $this->cities);
     }
@@ -44,7 +44,7 @@ class FormCities
         $this->method = $method;
     }
 
-    public function render()
+    public function render(): string 
     {
         $form = '<form method=' . $this->method . '>
         <label>Выберите город</label>
